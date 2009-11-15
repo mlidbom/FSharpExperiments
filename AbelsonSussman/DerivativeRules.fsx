@@ -1,6 +1,5 @@
-﻿
-
-
+﻿#load "Algorithms.fsx"
+open Algorithms
 
 type Expression =
     | Constant of int
@@ -24,8 +23,8 @@ let simplify expr =
         | Sum(expr1, expr2) -> Sum(simplify expr1, simplify expr2)
         | Product(expr1, expr2) -> Product(simplify expr1, simplify expr2)
         | expr -> expr
-    //Do a few passes. Should use fixed point or similar to make as many passes as necessary..
-    expr |> simplify |> simplify |> simplify |> simplify|> simplify 
+
+    fixedPoint simplify (=) expr
 
 let rec derivative expression variable = 
     match expression with
@@ -64,5 +63,5 @@ let a, x, b, c = Variable("a"), Variable("x"), Variable("b"), Variable("c")
 let equation = Sum(Product(a, Product(x, x)), Sum(Product(b,x), c))
 let equation'x = derivative equation "x"
 printExpr equation
-printExpr equation'x
-printExpr (simplify equation'x)
+printExpr equation'x //prints a * x * 1 + 1 * x + 0 * x * x + b * 1 + 0 * x + 0 . Yuck
+printExpr (simplify equation'x)//prints 2*a*x +b .  Nice :)

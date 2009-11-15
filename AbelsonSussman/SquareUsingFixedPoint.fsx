@@ -1,18 +1,15 @@
 ﻿
-let fixedPoint nextGuess initialGuess x =     
-    let tolerance = 0.000001
-    let rec tryGuess lastGuess guess =  
-        if abs(lastGuess - guess) < tolerance 
-        then guess 
-        else tryGuess guess (nextGuess guess)
-    
-    tryGuess initialGuess (nextGuess initialGuess)
+#load "Algorithms.fsx"
+open Algorithms
 
 let averageDamp f = 
     let average x y = (x + y) / 2.
     fun x -> average x (f x)
 
-let sqrtFixedPoint x = fixedPoint (averageDamp ((/) x)) 1. x
+let withinTolerance tolerance x y =
+    abs(x - y) < tolerance 
+
+let sqrtFixedPoint x = fixedPoint (averageDamp ((/) x)) (withinTolerance 0.0000001) 1.
 
 
 
@@ -23,9 +20,9 @@ let derivate f x =
 let newtonRoot f startGuess = 
     let f' = derivate f
     let newtonFormula x = x - (f x) / (f' x)
-    fixedPoint newtonFormula startGuess
+    fixedPoint newtonFormula (withinTolerance 0.0000001) startGuess
 
-let sqrtNewton x = newtonRoot (fun y -> x - (y ** 2.0) ) 1. x
+let sqrtNewton x = newtonRoot (fun y -> x - (y ** 2.0) ) 1.
 
 let my2 = sqrtFixedPoint 35.0
 

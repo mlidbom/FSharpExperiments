@@ -40,9 +40,11 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="FixedPointAndSquare.fsx" />
+    <None Include="Algorithms.fsx" />
+    <None Include="SquareUsingFixedPoint.fsx" />
     <None Include="TowerOfHanoi.fsx" />
     <None Include="PairsUsingOnlyFunctions.fsx" />
+    <None Include="DerivativeRules.fsx" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\..\Microsoft F#\v4.0\Microsoft.FSharp.Targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
