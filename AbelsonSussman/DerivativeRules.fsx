@@ -64,7 +64,9 @@ module Expressions =
 
     let simplify = Expression.simplify
     let derivative = Expression.derivative
-    let printExpr expr = printfn "%O" expr
+    let toString = Expression.toString
+
+    let printExpr expr = printfn "%O" expr    
 
 open Expressions
 let a, b, c, x, y = Variable("a"), Variable("b"), Variable("c"), Variable("x"), Variable("y")
@@ -80,20 +82,20 @@ let equation'x = derivative x equation
 printExpr equation
 printExpr equation'x //prints a * x * 1 + 1 * x + 0 * x * x + b * 1 + 0 * x + 0 . Yuck
 
-printExpr (simplify equation'x)//2*a*x +b .  Nice :)
+printExpr (simplify equation'x)//2 * a * x + b .  Nice :)
 
 //ok, so it can do x how about a b c?
 printExpr (simplify (derivative a equation))//x * x
-printExpr (simplify (derivative b equation))//x. 
-printExpr (simplify (derivative c equation))//1.
+printExpr (simplify (derivative b equation))//x 
+printExpr (simplify (derivative c equation))//1
 //Wohoo! not too shabby.
 
 //Let's use the members:
 //ok, so it can do x how about a b c?
-printExpr (derivative x equation).Simplified//2*a*x +b
+printExpr (derivative x equation).Simplified//2 * a * x + b
 printExpr (derivative a equation).Simplified//x * x
-printExpr (derivative b equation).Simplified//x. 
-printExpr (derivative c equation).Simplified//1.
+printExpr (derivative b equation).Simplified//x
+printExpr (derivative c equation).Simplified//1
 
 //nicer call structure:
-equation |> derivative x |> simplify |> printExpr//2*a*x +b
+equation |> derivative x |> simplify |> toString |> (printfn "%s")  //2*a*x + b
