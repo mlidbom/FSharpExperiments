@@ -1,7 +1,10 @@
 ﻿
 #r "nunit.framework.dll"
+#r "FSharp.PowerPack.Parallel.Seq.dll"
 
+open Microsoft.FSharp.Collections
 open System.Threading
+
  
 let workItems = seq{
         for i in 1..100 -> async { 
@@ -9,6 +12,7 @@ let workItems = seq{
         return i
         }
     }
+
 
 let result = workItems |> Async.Parallel |> Async.RunSynchronously
 

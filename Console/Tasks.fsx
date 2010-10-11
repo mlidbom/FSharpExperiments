@@ -1,4 +1,6 @@
-﻿open System.IO
+﻿#r "FSharp.PowerPack.dll"
+
+open System.IO
 open System.Net
 open Microsoft.FSharp.Control.CommonExtensions 
 
@@ -17,7 +19,10 @@ let run () =
             }
             
     let siteList = ["http://www.microsoft.com/";"http://msn.com/"]
-    let results = 
-      Async.RunSynchronously(Async.Parallel [for site in siteList -> download site]) 
+    siteList 
+        |> Seq.map download 
+        |> Async.Parallel 
+        |> Async.RunSynchronously
+        |> Seq.iter(fun x -> printfn "%s : %s" (fst x) (snd x))
 
-    results |> Seq.iter(fun x -> printfn "%s : %s" (fst x) (snd x))
+run()
